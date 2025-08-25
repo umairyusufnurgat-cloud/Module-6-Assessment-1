@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Guides - Travel the World</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .guides-hero {
+            height: 50vh;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.8), rgba(46, 204, 113, 0.8)), url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+        
+        .guide-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow-light);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .guide-card:hover {
+            box-shadow: var(--shadow-heavy);
+            transform: translateY(-5px);
+        }
+        
+        .guide-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+        
+        .guide-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .checklist {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+        
+        .checklist li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+        
+        .checklist i {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+        }
+        
+        .tip-box {
+            background: var(--light-gray);
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .tip-box h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .guides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .accordion {
+            border: 1px solid var(--light-gray);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .accordion-header {
+            background: var(--light-gray);
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        .accordion-header:hover {
+            background: #e9ecef;
+        }
+        
+        .accordion-content {
+            padding: 1.5rem;
+            display: none;
+        }
+        
+        .accordion.active .accordion-content {
+            display: block;
+        }
+        
+        .accordion.active .accordion-header i {
+            transform: rotate(180deg);
+        }
+        
+        .budget-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .budget-table th,
+        .budget-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .budget-table th {
+            background: var(--light-gray);
+            font-weight: 600;
+        }
+        
+        .budget-range {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .budget-low {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .budget-mid {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .budget-high {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .safety-alert {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .safety-alert i {
+            color: #f39c12;
+            font-size: 1.5rem;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-globe"></i>
+                <span>Travel World</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="destinations.html" class="nav-link">Destinations</a></li>
+                <li><a href="guides.html" class="nav-link">Travel Guides</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="guides-hero">
+        <div class="container">
+            <h1>Travel Guides & Tips</h1>
+            <p>Everything you need to know for your perfect adventure</p>
+        </div>
+    </section>
+
+    <!-- Travel Guides Content -->
+    <section class="guides-content">
+        <div class="container">
+            <!-- Quick Travel Tips -->
+            <div class="section-header">
+                <h2>Essential Travel Guides</h2>
+                <p>Expert advice to make your journey smooth and memorable</p>
+            </div>
+
+            <div class="guides-grid">
+                <!-- Packing Guide -->
+                <div class="guide-card">
+                    <div class="guide-icon">
+                        <i class="fas fa-suitcase"></i>
+                    </div>
+                    <h3>Ultimate Packing Guide</h3>
+                    <p>Pack smart and travel light with our comprehensive packing strategies.</p>
+                    
+                    <div class="tip-box">
+                        <h4><i class="fas fa-lightbulb"></i> Pro Tip</h4>
+                        <p>Roll your clothes instead of folding them to save 30% more space in your luggage!</p>
+                    </div>
+                    
+                    <h4>Essential Packing Checklist:</h4>
+                    <ul class="checklist">
+                        <li><i class="fas fa-check"></i> Travel documents & copies</li>
+                        <li><i class="fas fa-check"></i> Versatile clothing items</li>
+                        <li><i class="fas fa-check"></i> Comfortable walking shoes</li>
+                        <li><i class="fas fa-check"></i> Universal power adapter</li>
+                        <li><i class="fas fa-check"></i> First aid kit & medications</li>
+                        <li><i class="fas fa-check"></i> Portable charger & cables</li>
+                        <li><i class="fas fa-check"></i> Travel insurance documents</li>
+                        <li><i class="fas fa-check"></i> Local currency & cards</li>
+                    </ul>
+                </div>
+
+                <!-- Budget Travel -->
+                <div class="guide-card">
+                    <div class="guide-icon">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <h3>Budget Travel Mastery</h3>
+                    <p>Discover amazing destinations without breaking the bank.</p>
+                    
+                    <h4>Daily Budget Estimates:</h4>
+                    <table class="budget-table">
+                        <tr>
+                            <th>Destination Type</th>
+                            <th>Budget Range</th>
+                        </tr>
+                        <tr>
+                            <td>Southeast Asia</td>
+                            <td><span class="budget-range budget-low">$20-40/day</span></td>
+                        </tr>
+                        <tr>
+                            <td>Eastern Europe</td>
+                            <td><span class="budget-range budget-mid">$40-70/day</span></td>
+                        </tr>
+                        <tr>
+                            <td>Western Europe</td>
+                            <td><span class="budget-range budget-high">$80-150/day</span></td>
+                        </tr>
+                        <tr>
+                            <td>North America</td>
+                            <td><span class="budget-range budget-high">$100-200/day</span></td>
+                        </tr>
+                    </table>
+                    
+                    <div class="tip-box">
+                        <h4><i class="fas fa-lightbulb"></i> Money-Saving Tips</h4>
+                        <p>Book flights 6-8 weeks in advance, stay in hostels or Airbnb, cook your own meals, and use public transportation.</p>
+                    </div>
+                </div>
+
+                <!-- Safety Guide -->
+                <div class="guide-card">
+                    <div class="guide-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Travel Safety Guide</h3>
+                    <p>Stay safe and secure during your adventures around the world.</p>
+                    
+                    <div class="safety-alert">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div>
+                            <strong>Important:</strong> Always register with your embassy when traveling to high-risk areas and keep emergency contacts handy.
+                        </div>
+                    </div>
+                    
+                    <h4>Safety Checklist:</h4>
+                    <ul class="checklist">
+                        <li><i class="fas fa-check"></i> Research destination safety</li>
+                        <li><i class="fas fa-check"></i> Get travel insurance</li>
+                        <li><i class="fas fa-check"></i> Share itinerary with family</li>
+                        <li><i class="fas fa-check"></i> Keep copies of documents</li>
+                        <li><i class="fas fa-check"></i> Learn basic local phrases</li>
+                        <li><i class="fas fa-check"></i> Stay connected with mobile data</li>
+                        <li><i class="fas fa-check"></i> Trust your instincts</li>
+                        <li><i class="fas fa-check"></i> Keep emergency cash hidden</li>
+                    </ul>
+                </div>
+
+                <!-- Photography Guide -->
+                <div class="guide-card">
+                    <div class="guide-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3>Travel Photography</h3>
+                    <p>Capture stunning memories with our photography tips and tricks.</p>
+                    
+                    <h4>Essential Photography Tips:</h4>
+                    <ul class="checklist">
+                        <li><i class="fas fa-check"></i> Golden hour lighting (sunrise/sunset)</li>
+                        <li><i class="fas fa-check"></i> Rule of thirds composition</li>
+                        <li><i class="fas fa-check"></i> Include local people & culture</li>
+                        <li><i class="fas fa-check"></i> Capture authentic moments</li>
+                        <li><i class="fas fa-check"></i> Research iconic viewpoints</li>
+                        <li><i class="fas fa-check"></i> Backup your photos regularly</li>
+                        <li><i class="fas fa-check"></i> Respect local photography rules</li>
+                        <li><i class="fas fa-check"></i> Edit photos to enhance mood</li>
+                    </ul>
+                    
+                    <div class="tip-box">
+                        <h4><i class="fas fa-lightbulb"></i> Camera Gear</h4>
+                        <p>A smartphone with good camera quality is often sufficient. For serious photography, consider a mirrorless camera with versatile zoom lens.</p>
+                    </div>
+                </div>
+
+                <!-- Cultural Etiquette -->
+                <div class="guide-card">
+                    <div class="guide-icon">
+                        <i class="fas fa-hands"></i>
+                    </div>
+                    <h3>Cultural Etiquette</h3>
+                    <p>Navigate different cultures with respect and understanding.</p>
+                    
+                    <h4>Universal Etiquette Rules:</h4>
+                    <ul class="checklist">
+                        <li><i class="fas fa-check"></i> Learn basic greetings</li>
+                        <li><i class="fas fa-check"></i> Respect dress codes</li>
+                        <li><i class="fas fa-check"></i> Understand tipping customs</li>
+                        <li><i class="fas fa-check"></i> Be mindful of religious sites</li>
+                        <li><i class="fas fa-check"></i> Ask before taking photos of people</li>
+                        <li><i class="fas fa-check"></i> Try local food with open mind</li>
+                        <li><i class="fas fa-check"></i> Be patient with language barriers</li>
+                        <li><i class="fas fa-check"></i> Show genuine interest in culture</li>
+                    </ul>
+                    
+                    <div class="tip-box">
+                        <h4><i class="fas fa-lightbulb"></i> Cultural Respect</h4>
+                        <p>Research local customs before visiting. What's normal in your culture might be offensive elsewhere.</p>
+                    </div>
+                </div>
+
+                <!-- Health & Wellness -->
+                <div class="guide-card">
+                    <div class="guide-icon">
+                        <i class="fas fa-heart-pulse"></i>
+                    </div>
+                    <h3>Health & Wellness</h3>
+                    <p>Stay healthy and energized throughout your journey.</p>
+                    
+                    <h4>Health Preparation:</h4>
+                    <ul class="checklist">
+                        <li><i class="fas fa-check"></i> Visit travel clinic 4-6 weeks before</li>
+                        <li><i class="fas fa-check"></i> Get required vaccinations</li>
+                        <li><i class="fas fa-check"></i> Pack prescription medications</li>
+                        <li><i class="fas fa-check"></i> Bring basic first aid supplies</li>
+                        <li><i class="fas fa-check"></i> Research medical facilities</li>
+                        <li><i class="fas fa-check"></i> Stay hydrated constantly</li>
+                        <li><i class="fas fa-check"></i> Eat at reputable places</li>
+                        <li><i class="fas fa-check"></i> Get adequate sleep</li>
+                    </ul>
+                    
+                    <div class="safety-alert">
+                        <i class="fas fa-medkit"></i>
+                        <div>
+                            <strong>Health Insurance:</strong> Ensure your travel insurance covers medical emergencies and evacuation costs.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Travel Planning -->
+            <div class="section-header">
+                <h2>Detailed Planning Guides</h2>
+                <p>Step-by-step guides for different aspects of travel planning</p>
+            </div>
+
+            <!-- Accordion Sections -->
+            <div class="accordion">
+                <div class="accordion-header">
+                    <span>Flight Booking Strategies</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <h4>Best Times to Book Flights:</h4>
+                    <ul>
+                        <li><strong>Domestic flights:</strong> 1-3 months in advance</li>
+                        <li><strong>International flights:</strong> 2-8 months in advance</li>
+                        <li><strong>Peak season:</strong> Book as early as possible</li>
+                        <li><strong>Off-season:</strong> More flexibility, can book closer to travel date</li>
+                    </ul>
+                    
+                    <h4>Money-Saving Tips:</h4>
+                    <ul>
+                        <li>Be flexible with dates and destinations</li>
+                        <li>Clear browser cookies before booking</li>
+                        <li>Compare prices across multiple platforms</li>
+                        <li>Consider connecting flights vs. direct flights</li>
+                        <li>Sign up for airline newsletters for deals</li>
+                        <li>Use incognito mode when searching</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <div class="accordion-header">
+                    <span>Accommodation Guide</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <h4>Types of Accommodation:</h4>
+                    <ul>
+                        <li><strong>Hotels:</strong> Full service, consistent quality, often pricier</li>
+                        <li><strong>Hostels:</strong> Budget-friendly, social atmosphere, shared facilities</li>
+                        <li><strong>Airbnb:</strong> Local experience, kitchen access, varies in quality</li>
+                        <li><strong>Guesthouses:</strong> Personal touch, local insights, mid-range pricing</li>
+                        <li><strong>Boutique hotels:</strong> Unique character, personalized service</li>
+                    </ul>
+                    
+                    <h4>Booking Tips:</h4>
+                    <ul>
+                        <li>Read reviews carefully and recently</li>
+                        <li>Check location and transportation options</li>
+                        <li>Understand cancellation policies</li>
+                        <li>Look for properties with good photos</li>
+                        <li>Consider neighborhood safety</li>
+                        <li>Compare prices on multiple platforms</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <div class="accordion-header">
+                    <span>Transportation Options</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <h4>Local Transportation:</h4>
+                    <ul>
+                        <li><strong>Public Transport:</strong> Buses, trains, subways - economical and authentic</li>
+                        <li><strong>Ride-sharing:</strong> Uber, Lyft, local equivalents - convenient but pricier</li>
+                        <li><strong>Taxis:</strong> Traditional option, negotiate fares in advance</li>
+                        <li><strong>Rental Cars:</strong> Freedom and flexibility, requires international license</li>
+                        <li><strong>Bicycles:</strong> Eco-friendly, great for short distances</li>
+                        <li><strong>Walking:</strong> Free, healthy, and lets you discover hidden gems</li>
+                    </ul>
+                    
+                    <h4>Long-Distance Travel:</h4>
+                    <ul>
+                        <li><strong>Trains:</strong> Scenic, comfortable, environmentally friendly</li>
+                        <li><strong>Buses:</strong> Budget option, extensive networks</li>
+                        <li><strong>Domestic flights:</strong> Time-saving for long distances</li>
+                        <li><strong>Car rentals:</strong> Ultimate flexibility for road trips</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <div class="accordion-header">
+                    <span>Travel Insurance Guide</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <h4>Types of Coverage:</h4>
+                    <ul>
+                        <li><strong>Medical Coverage:</strong> Emergency medical expenses and evacuation</li>
+                        <li><strong>Trip Cancellation:</strong> Refunds for cancelled or interrupted trips</li>
+                        <li><strong>Baggage Protection:</strong> Lost, stolen, or damaged luggage</li>
+                        <li><strong>Flight Delays:</strong> Compensation for significant delays</li>
+                        <li><strong>Adventure Sports:</strong> Coverage for high-risk activities</li>
+                        <li><strong>Rental Car:</strong> Protection for rental vehicle damages</li>
+                    </ul>
+                    
+                    <div class="safety-alert">
+                        <i class="fas fa-info-circle"></i>
+                        <div>
+                            <strong>Important:</strong> Purchase travel insurance within 14-21 days of booking your trip for maximum coverage benefits.
+                        </div>
+                    </div>
+                    
+                    <h4>Choosing the Right Policy:</h4>
+                    <ul>
+                        <li>Consider your destination's risk level</li>
+                        <li>Factor in your age and health conditions</li>
+                        <li>Include coverage for planned activities</li>
+                        <li>Check if your regular insurance provides travel coverage</li>
+                        <li>Read policy exclusions carefully</li>
+                        <li>Compare multiple providers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <div class="accordion-header">
+                    <span>Visa & Documentation</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <h4>Essential Documents:</h4>
+                    <ul>
+                        <li><strong>Passport:</strong> Valid for at least 6 months beyond travel date</li>
+                        <li><strong>Visa:</strong> Research requirements for each destination</li>
+                        <li><strong>Travel Insurance:</strong> Required for many countries</li>
+                        <li><strong>Flight Tickets:</strong> Print copies as backup</li>
+                        <li><strong>Accommodation Confirmation:</strong> Often required at immigration</li>
+                        <li><strong>Vaccination Certificates:</strong> For certain destinations</li>
+                        <li><strong>International Driving License:</strong> If planning to drive</li>
+                    </ul>
+                    
+                    <h4>Document Security Tips:</h4>
+                    <ul>
+                        <li>Make multiple copies of all documents</li>
+                        <li>Store copies separately from originals</li>
+                        <li>Save digital copies in cloud storage</li>
+                        <li>Share copies with trusted family/friends</li>
+                        <li>Use hotel safes for originals</li>
+                        <li>Carry one copy with you while sightseeing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <div class="newsletter-text">
+                    <h3>Get More Travel Tips</h3>
+                    <p>Subscribe to receive exclusive travel guides, tips, and destination updates.</p>
+                </div>
+                <div class="newsletter-form">
+                    <form>
+                        <input type="email" placeholder="Enter your email address" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-globe"></i>
+                        <span>Travel World</span>
+                    </div>
+                    <p>Discover the world's most beautiful destinations with our comprehensive travel guides and inspiring stories.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="destinations.html">Destinations</a></li>
+                        <li><a href="guides.html">Travel Guides</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Popular Destinations</h4>
+                    <ul>
+                        <li><a href="#">Europe</a></li>
+                        <li><a href="#">Asia</a></li>
+                        <li><a href="#">Americas</a></li>
+                        <li><a href="#">Africa</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Travel Resources</h4>
+                    <ul>
+                        <li><a href="#">Travel Tips</a></li>
+                        <li><a href="#">Packing Lists</a></li>
+                        <li><a href="#">Travel Insurance</a></li>
+                        <li><a href="#">Visa Information</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Travel World. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Accordion functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const accordion = this.parentElement;
+                    const isActive = accordion.classList.contains('active');
+                    
+                    // Close all accordions
+                    document.querySelectorAll('.accordion').forEach(acc => {
+                        acc.classList.remove('active');
+                    });
+                    
+                    // Open clicked accordion if it wasn't active
+                    if (!isActive) {
+                        accordion.classList.add('active');
+                    }
+                });
+            });
+            
+            // Add scroll animations to guide cards
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.guide-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
